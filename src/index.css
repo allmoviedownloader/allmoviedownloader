@@ -1,0 +1,556 @@
+:root {
+    --bg-color: #020617;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --accent-color: #3b82f6;
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --recommended-glow: rgba(59, 130, 246, 0.5);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.app-wrapper {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    transition: background 1s ease;
+    background: var(--bg-color);
+    overflow: hidden;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.82);
+    /* Safe opaque fallback */
+    z-index: 1;
+}
+
+/* Poster Wall System */
+/* 
+    =======================================================================
+    PREMIUM 3D PARALLAX BACKGROUND SYSTEM
+    =======================================================================
+*/
+
+.parallax-viewport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+    perspective: 1200px;
+    /* Deep perspective for 3D depth */
+    background: #000;
+}
+
+.parallax-inner {
+    position: absolute;
+    width: 150vw;
+    /* Massive size to allow for tilting without edges showing */
+    height: 150vh;
+    left: -25vw;
+    /* Centered */
+    top: -25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+    transform-style: preserve-3d;
+    /* Bind transform to dynamic CSS variables from JS */
+    transform: translateZ(-200px) rotateX(var(--mouse-x)) rotateY(var(--mouse-y));
+    transition: transform 0.1s ease-out;
+    /* Super smooth tracking interpolation */
+    will-change: transform;
+}
+
+.parallax-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(15, 23, 42, 0.6) 0%, rgba(15, 23, 42, 0.95) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.poster-track {
+    display: flex;
+    gap: 30px;
+    width: max-content;
+    will-change: transform;
+}
+
+/* Bi-directional floating animation for tracks */
+.track-right {
+    animation: slideRight 150s linear infinite;
+}
+
+.track-left {
+    transform: translateX(-30%);
+    animation: slideLeft 150s linear infinite;
+}
+
+/* Dedicated Static Bundle View for Category Selection */
+.static-bundle-viewport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+    /* Enable deep 3D space */
+}
+
+.static-bundle-grid {
+    display: grid;
+    /* 16 grid: 4 columns x 4 rows */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    align-content: center;
+    justify-content: center;
+    opacity: 0.9;
+
+    /* Premium 3D Mouse Parallax Tracking */
+    transform-style: preserve-3d;
+    transform: translateZ(-50px) rotateX(var(--mouse-x)) rotateY(var(--mouse-y)) scale(0.95);
+    transition: transform 0.1s ease-out;
+    /* Super smooth tracking interpolation */
+    will-change: transform;
+}
+
+.poster-item {
+    width: 440px;
+    /* Massively increased size */
+    height: 660px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    flex-shrink: 0;
+    background-color: #000;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Soft shading, massive shadow for 3D lighting effect */
+    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(0, 0, 0, 0.5);
+    /* Enhance the transition so when posters change categories they smoothly fade */
+    transition: opacity 1s ease-in-out, background-image 1s ease-in-out;
+}
+
+/* Make the static versions slightly smaller to fit the 4x3 grid perfectly */
+.static-poster {
+    width: 100%;
+    height: 100%;
+    min-height: 480px;
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.8);
+    opacity: 0.4;
+    transition: opacity 0.5s ease;
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+/* Dynamic Themes */
+.theme-movie {
+    --accent-color: #ef4444;
+    /* Red for movies */
+}
+
+.theme-anime {
+    --accent-color: #3b82f6;
+    /* Blue for anime */
+}
+
+.app-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 5rem;
+    /* More generous side padding on huge screens */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    background: linear-gradient(to bottom right, #fff, #64748b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.app-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.brand:hover .app-logo {
+    transform: scale(1.05) rotate(-2deg);
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.step-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.step-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    opacity: 0.9;
+}
+
+.selection-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+    max-width: 600px;
+}
+
+.selection-card {
+    aspect-ratio: 1;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+    backdrop-filter: blur(20px);
+}
+
+.selection-card:hover {
+    transform: translateY(-12px) scale(1.05);
+    /* Sliding lag effect */
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.25);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.action-card {
+    aspect-ratio: auto;
+    padding: 3rem;
+}
+
+.info-disclaimer {
+    margin-top: 5rem;
+    width: 100%;
+    max-width: 100%;
+    /* Take up the entire new width */
+    padding: 2rem 0;
+    /* Removed horizontal padding so it stretches fully */
+    background: transparent;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.info-disclaimer p {
+    font-size: 1.1rem;
+    /* Slightly larger text */
+    line-height: 1.8;
+    color: var(--text-primary);
+    /* Made it stand out more */
+    text-align: center;
+    font-weight: 400;
+}
+
+/* Results Section */
+.results-header {
+    margin-bottom: 2.5rem;
+}
+
+.results-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.results-badges {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.res-badge {
+    background: var(--accent-color);
+    color: #fff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.sites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.site-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s;
+    backdrop-filter: blur(16px);
+    position: relative;
+    height: 100%;
+}
+
+.site-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.recommended-card {
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+}
+
+.recommended-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: var(--accent-color);
+    color: #fff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.site-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.action-icons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-icon.watch {
+    color: #10b981;
+}
+
+.action-icon.download {
+    color: #8b5cf6;
+}
+
+.site-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Animations */
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-right {
+    animation: slideRight 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-stagger {
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 640px) {
+    .app-container {
+        padding: 1rem 1rem;
+    }
+
+    .header-section {
+        margin-bottom: 2rem;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .main-title {
+        font-size: 1.8rem;
+    }
+
+    .app-logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+    }
+
+    .step-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .selection-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .selection-card {
+        aspect-ratio: auto;
+        padding: 2rem;
+        border-radius: 20px;
+    }
+
+    .card-content {
+        flex-direction: row;
+        font-size: 1.25rem;
+    }
+
+    .action-card {
+        padding: 1.5rem;
+    }
+
+    .sites-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .site-card {
+        padding: 1.25rem;
+    }
+
+    .info-disclaimer {
+        margin-top: 3rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .info-disclaimer p {
+        font-size: 0.95rem;
+    }
+}

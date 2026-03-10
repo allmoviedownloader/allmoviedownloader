@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import SiteCard from './components/SiteCard';
 import { sites } from './data/sites';
-import { ChevronLeft, Clapperboard, Tv } from 'lucide-react';
+import { ChevronLeft, Clapperboard, Tv, AlertCircle } from 'lucide-react';
 
 // Import local, guaranteed ultra-fast assets
 import appLogo from './assets/logo.png';
@@ -257,6 +257,14 @@ function App() {
                                 <div className="results-badges">
                                     <span className="res-badge">{category}</span>
                                     <span className="res-badge">{action}</span>
+                                </div>
+                            </div>
+
+                            <div className="traffic-disclaimer glass-panel animate-fade-in">
+                                <AlertCircle className="traffic-icon" size={24} />
+                                <div className="traffic-text">
+                                    <strong>🚀 High Traffic Alert:</strong> Due to extreme demand, some servers may temporarily stop responding or load slowly. 
+                                    If a site fails to open, safely return here and try our other premium alternatives below.
                                 </div>
                             </div>
 

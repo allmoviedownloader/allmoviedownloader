@@ -554,3 +554,51 @@ body {
         font-size: 0.95rem;
     }
 }
+
+/* Traffic Disclaimer Banner */
+.traffic-disclaimer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 4px solid var(--accent-color);
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.traffic-icon {
+    color: var(--accent-color);
+    flex-shrink: 0;
+    animation: pulse-glow 2s infinite ease-in-out;
+}
+
+.traffic-text {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.traffic-text strong {
+    color: var(--accent-color);
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 5px var(--accent-color)); }
+    50% { opacity: 0.7; transform: scale(1.1); filter: drop-shadow(0 0 15px var(--accent-color)); }
+}
+
+@media (max-width: 768px) {
+    .traffic-disclaimer {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding: 1.25rem;
+    }
+}

@@ -159,7 +159,9 @@ function App() {
     useEffect(() => {
         if (window.ezstandalone && window.ezstandalone.cmd) {
             window.ezstandalone.cmd.push(function() {
-                // Triggering showAds without specific IDs activates all placeholders present in the current DOM
+                // For dynamic SPAs, it's best to destroy old placeholders before showing new ones
+                // to avoid ID conflicts and unpredictable behavior.
+                window.ezstandalone.destroyAll();
                 window.ezstandalone.showAds();
             });
         }

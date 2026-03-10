@@ -555,6 +555,17 @@ body {
     }
 }
 
+/* Ezoic Ad Container Management */
+.ezoic-ad-container {
+    width: 100%;
+    margin: 3rem auto !important;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px; /* Reserves some breathing room */
+}
+
 /* Traffic Disclaimer Banner */
 .traffic-disclaimer {
     display: flex;

@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import SiteCard from './components/SiteCard';
 import { sites } from './data/sites';
 import { ChevronLeft, Clapperboard, Tv, AlertCircle } from 'lucide-react';
+import AdPlacement from './components/AdPlacement';
 
 // Import local, guaranteed ultra-fast assets
 import appLogo from './assets/logo.png';
@@ -154,6 +155,16 @@ function App() {
         });
     }, []);
 
+    // Ezoic Ad Activation Logic
+    useEffect(() => {
+        if (window.ezstandalone && window.ezstandalone.cmd) {
+            window.ezstandalone.cmd.push(function() {
+                // Triggering showAds without specific IDs activates all placeholders present in the current DOM
+                window.ezstandalone.showAds();
+            });
+        }
+    }, [step]);
+
     const filteredSites = useMemo(() => {
         if (step !== 2) return [];
         return sites.filter(site =>
@@ -227,6 +238,8 @@ function App() {
                                     Our goal is to make it easier for users to access trusted websites without confusion.
                                 </p>
                             </div>
+
+                            <AdPlacement id="101" />
                         </div>
                     )}
 
@@ -245,6 +258,7 @@ function App() {
                                     </div>
                                 </div>
                             </div>
+                            <AdPlacement id="102" />
                         </div>
                     )}
 
@@ -267,6 +281,8 @@ function App() {
                                     If a site fails to open, safely return here and try our other premium alternatives below.
                                 </div>
                             </div>
+
+                            <AdPlacement id="103" />
 
                             {filteredSites.length > 0 ? (
                                 <div className="sites-grid">

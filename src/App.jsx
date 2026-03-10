@@ -191,8 +191,8 @@ function App() {
             <div className="app-container">
                 <header className="header-section">
                     <div className="brand" onClick={resetAll} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <img src={appLogo} alt="All Movie Downloader Logo" className="app-logo" />
-                        <h1 className="main-title" style={{ margin: 0 }}>All Movie Downloader</h1>
+                        <img src={appLogo} alt="FindMyShow Logo" className="app-logo" />
+                        <h1 className="main-title" style={{ margin: 0 }}>FindMyShow</h1>
                     </div>
                     {step > 0 && (
                         <button className="back-btn" onClick={goBack}>

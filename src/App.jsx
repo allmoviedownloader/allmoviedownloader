@@ -165,6 +165,12 @@ function App() {
                 window.ezstandalone.showAds();
             });
         }
+        
+        // Developer Helper: Log message if Ezoic Debugger is active in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('ez_js_debugger')) {
+            console.log("🛠️ FindMyShow: Ezoic Debug Mode is Active.");
+        }
     }, [step]);
 
     const filteredSites = useMemo(() => {

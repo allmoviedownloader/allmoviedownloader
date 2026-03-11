@@ -566,6 +566,68 @@ body {
     min-height: 100px; /* Reserves some breathing room */
 }
 
+/* SEO Footer Styling */
+.seo-footer {
+    margin-top: 6rem;
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.seo-footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.seo-text-block h3 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.seo-text-block p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3rem;
+}
+
+.seo-faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+}
+
+.faq-item h4 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.faq-item p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+    .seo-footer {
+        padding: 3rem 1.5rem;
+        margin-top: 4rem;
+    }
+}
+
 /* Traffic Disclaimer Banner */
 .traffic-disclaimer {
     display: flex;

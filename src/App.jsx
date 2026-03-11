@@ -40,14 +40,20 @@ function StaticBundleWall({ category }) {
     }, [category]);
 
     return (
-        <div className="static-bundle-viewport">
+        <section className="static-bundle-viewport" aria-hidden="true">
             <div className="static-bundle-grid">
                 {pool.map((url, i) => (
-                    <div key={`static-${i}`} className="poster-item static-poster" style={{ backgroundImage: `url(${url})` }}></div>
+                    <div 
+                        key={`static-${i}`} 
+                        className="poster-item static-poster" 
+                        style={{ backgroundImage: `url(${url})` }}
+                        role="img"
+                        aria-label={`${category === 'movie' ? 'Movie' : 'Anime'} poster ${i + 1}`}
+                    ></div>
                 ))}
             </div>
             <div className="parallax-overlay"></div>
-        </div>
+        </section>
     );
 }
 
@@ -77,28 +83,46 @@ function ParallaxWall({ category, step }) {
     const track3 = massiveGrid.slice(60, 90);
 
     return (
-        <div className="parallax-viewport">
+        <section className="parallax-viewport" aria-hidden="true">
             {/* The 3D spinning container linked to mouse tracking */}
             <div className="parallax-inner">
                 <div className="poster-track track-right">
                     {track1.map((url, i) => (
-                        <div key={`tr1-${i}`} className="poster-item" style={{ backgroundImage: `url(${url})` }}></div>
+                        <div 
+                            key={`tr1-${i}`} 
+                            className="poster-item" 
+                            style={{ backgroundImage: `url(${url})` }}
+                            role="img"
+                            aria-label="Trending search background poster"
+                        ></div>
                     ))}
                 </div>
                 <div className="poster-track track-left">
                     {track2.map((url, i) => (
-                        <div key={`tr2-${i}`} className="poster-item" style={{ backgroundImage: `url(${url})` }}></div>
+                        <div 
+                            key={`tr2-${i}`} 
+                            className="poster-item" 
+                            style={{ backgroundImage: `url(${url})` }}
+                            role="img"
+                            aria-label="Popular media background poster"
+                        ></div>
                     ))}
                 </div>
                 <div className="poster-track track-right">
                     {track3.map((url, i) => (
-                        <div key={`tr3-${i}`} className="poster-item" style={{ backgroundImage: `url(${url})` }}></div>
+                        <div 
+                            key={`tr3-${i}`} 
+                            className="poster-item" 
+                            style={{ backgroundImage: `url(${url})` }}
+                            role="img"
+                            aria-label="Latest release background poster"
+                        ></div>
                     ))}
                 </div>
             </div>
             {/* Dark overlay specifically integrated in Parallax */}
             <div className="parallax-overlay"></div>
-        </div>
+        </section>
     );
 }
 
@@ -313,6 +337,39 @@ function App() {
                         </div>
                     )}
                 </main>
+
+                <footer className="seo-footer animate-fade-in">
+                    <div className="seo-footer-content">
+                        <section className="seo-text-block">
+                            <h3>About FindMyShow - Your Ultimate Movie & Anime Hub</h3>
+                            <p>
+                                FindMyShow is India's leading aggregator for **Free Movie Finder** and **Watch Anime Free** services. 
+                                We provide a seamless interface to discover the latest releases across official OTT platforms like Netflix, 
+                                Crunchyroll, Disney+, and Prime Video. Our mission is to be the best **Movie Aggregator** and **Free OTT Hub**, 
+                                ensuring you spend less time searching and more time watching.
+                            </p>
+                        </section>
+
+                        <section className="seo-faq-grid">
+                            <div className="faq-item">
+                                <h4>Is FindMyShow free?</h4>
+                                <p>Yes, 100% free with no registration required to find streaming links.</p>
+                            </div>
+                            <div className="faq-item">
+                                <h4>Does it have latest movies?</h4>
+                                <p>We aggregate links for the newest Bollywood, Hollywood, and South Indian movies daily.</p>
+                            </div>
+                            <div className="faq-item">
+                                <h4>How to watch anime?</h4>
+                                <p>Just click on the Anime category to find official Crunchyroll and free streaming links instantly.</p>
+                            </div>
+                        </section>
+
+                        <div className="footer-bottom">
+                            <p>&copy; 2026 FindMyShow. All rights reserved. | Optimized for High Performance & SEO.</p>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
     );

@@ -170,13 +170,28 @@ function App() {
         }
     };
 
-    // Preload extremely high res images lazily, prioritize first 5 so UI doesn't stutter building DOM
+    // Progressive Preloading: Prioritize first few posters to ensure smooth initial transition
     useEffect(() => {
-        const allPosters = [...BASE_MOVIE_POSTERS, ...BASE_ANIME_POSTERS];
-        allPosters.forEach((url) => {
+        const priorityPosters = [...BASE_MOVIE_POSTERS.slice(0, 8), ...BASE_ANIME_POSTERS.slice(0, 8)];
+        const secondaryPosters = [...BASE_MOVIE_POSTERS.slice(8), ...BASE_ANIME_POSTERS.slice(8)];
+        
+        // Load high-priority posters first
+        priorityPosters.forEach((url) => {
             const img = new Image();
             img.src = url;
+            img.decoding = 'async';
         });
+
+        // Delay lower priority to free up main thread bandwidth
+        const timeout = setTimeout(() => {
+            secondaryPosters.forEach((url) => {
+                const img = new Image();
+                img.src = url;
+                img.decoding = 'async';
+            });
+        }, 2000);
+
+        return () => clearTimeout(timeout);
     }, []);
 
     // Ezoic Ad Activation Logic
@@ -248,14 +263,28 @@ function App() {
                     {step === 0 && (
                         <div className="step-container animate-fade-in">
                             <h2 className="step-title">What do you want to see?</h2>
-                            <div className="selection-grid">
-                                <div className="selection-card movie-card" onClick={() => handleCategorySelect('movie')}>
+                            <div className="selection-grid" role="group" aria-label="Category Selection">
+                                <div 
+                                    className="selection-card movie-card" 
+                                    onClick={() => handleCategorySelect('movie')}
+                                    role="button"
+                                    aria-label="Select Movies Category"
+                                    tabIndex="0"
+                                    onKeyDown={(e) => e.key === 'Enter' && handleCategorySelect('movie')}
+                                >
                                     <div className="card-content">
                                         <Clapperboard size={48} />
                                         <span>Movies</span>
                                     </div>
                                 </div>
-                                <div className="selection-card anime-card" onClick={() => handleCategorySelect('anime')}>
+                                <div 
+                                    className="selection-card anime-card" 
+                                    onClick={() => handleCategorySelect('anime')}
+                                    role="button"
+                                    aria-label="Select Anime Category"
+                                    tabIndex="0"
+                                    onKeyDown={(e) => e.key === 'Enter' && handleCategorySelect('anime')}
+                                >
                                     <div className="card-content">
                                         <Tv size={48} />
                                         <span>Anime</span>
@@ -278,13 +307,27 @@ function App() {
                     {step === 1 && (
                         <div className="step-container animate-slide-right">
                             <h2 className="step-title">How do you want it?</h2>
-                            <div className="selection-grid">
-                                <div className="selection-card action-card watch" onClick={() => handleActionSelect('watch')}>
+                            <div className="selection-grid" role="group" aria-label="Action Selection">
+                                <div 
+                                    className="selection-card action-card watch" 
+                                    onClick={() => handleActionSelect('watch')}
+                                    role="button"
+                                    aria-label="Watch Movies Online"
+                                    tabIndex="0"
+                                    onKeyDown={(e) => e.key === 'Enter' && handleActionSelect('watch')}
+                                >
                                     <div className="card-content">
                                         <span>Online Watch</span>
                                     </div>
                                 </div>
-                                <div className="selection-card action-card download" onClick={() => handleActionSelect('download')}>
+                                <div 
+                                    className="selection-card action-card download" 
+                                    onClick={() => handleActionSelect('download')}
+                                    role="button"
+                                    aria-label="Download Content"
+                                    tabIndex="0"
+                                    onKeyDown={(e) => e.key === 'Enter' && handleActionSelect('download')}
+                                >
                                     <div className="card-content">
                                         <span>Download</span>
                                     </div>
